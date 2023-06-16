@@ -15,12 +15,14 @@ def parse_arguments():
         "--template",
         type=str,
         help="Путь к SVG-шаблону",
+        required=True,
     )
     parser.add_argument(
         "-d",
         "--data",
         type=str,
         help="Путь к данным для вставки в шаблон",
+        required=True,
     )
     parser.add_argument(
         "-o",
