@@ -1,4 +1,5 @@
 import argparse
+import csv
 from os import system
 from pathlib import Path
 
@@ -14,6 +15,12 @@ def parse_arguments():
         "--template",
         type=str,
         help="Путь к SVG-шаблону",
+    )
+    parser.add_argument(
+        "-d",
+        "--data",
+        type=str,
+        help="Путь к данным для вставки в шаблон",
     )
     parser.add_argument(
         "-o",
@@ -47,19 +54,22 @@ if __name__ == "__main__":
     output_dir = Path(args.output)
     output_dir.mkdir(exist_ok=True)
 
-    output_svg_path = output_dir / f"{template_name}_filled.svg"
-    output_path = output_dir / f"{template_name}.pdf"
-    context = {
-        "title": "Awesome Project",
-    }
+    with open(args.data) as csv_file:
+        reader = csv.DictReader(csv_file)
 
-    fill_svg(
-        template_path,
-        output_svg_path,
-        context,
-    )
+        for row in reader:
+            output_svg_path = output_dir / f"{template_name}_{row['title']}_filled.svg"
+            output_path = output_dir / f"{template_name}_{row['title']}.pdf"
 
-    system(
-        f"{inkscape} --export-type=pdf "
-        f"--export-filename={output_path} {output_svg_path}"
-    )
+            fill_svg(
+                template_path,
+                output_svg_path,
+                row,
+            )
+
+            system(
+                f"{inkscape} --export-type=pdf "
+                f"--export-filename='{output_path}' '{output_svg_path}'"
+            )
+
+            output_svg_path.unlink()

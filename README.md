@@ -36,11 +36,11 @@ INKSCAPE=/path/to/inkscape.exe
 Запустите скрипт в терминале:
 
 ```sh
-python main.py --template template/example.svg --output tmp
+python main.py --template template/example.svg --data /path/to/data.csv --output tmp
 ```
 
 Можно использовать сокращенную запись:
 
 ```sh
-python main.py -t template/example.svg -o tmp
+python main.py -t template/example.svg -d /path/to/data.csv -o tmp
 ```
