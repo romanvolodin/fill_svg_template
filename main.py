@@ -57,7 +57,7 @@ if __name__ == "__main__":
     output_dir.mkdir(exist_ok=True)
 
     with open(args.data) as csv_file:
-        reader = csv.DictReader(csv_file)
+        reader = csv.DictReader(csv_file, delimiter="\t")
 
         for row in reader:
             output_svg_path = output_dir / f"{template_name}_{row['title']}_filled.svg"
